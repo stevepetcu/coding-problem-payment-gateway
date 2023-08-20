@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: payment-gateway-api
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    url: "jdbc:postgresql://payment-database:5432/${PAYMENT_GATEWAY_DATABASE}"
+    username: ${PAYMENT_GATEWAY_DATABASE_USERNAME}
+    password: ${PAYMENT_GATEWAY_DATABASE_PASSWORD}
+
+  liquibase:
+    change-log: classpath:/db/changelog-master.xml
+    contexts: all
+
+#  cloud:
+#    openfeign:
+#      httpclient:
+#        connection-timeout: 1000
+#        ok-http:
+#          read-timeout: 5000
+
+service:
+  self:
+    domain: http://localhost:8080
+  external:
+    sim-bank:
+      base-url: http://localhost:8090
+      create-payment-order-path: /payment-orders

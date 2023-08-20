@@ -1,0 +1,36 @@
+services:
+  payment-gateway:
+    image: payment-gateway-api:latest
+    build:
+      context: .
+    container_name: payment-gateway
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - PAYMENT_GATEWAY_DATABASE=payments_db
+      - PAYMENT_GATEWAY_DATABASE_USERNAME=postgres
+      - PAYMENT_GATEWAY_DATABASE_PASSWORD=postgres-pwd
+    ports:
+      - 8080:8080
+
+  db:
+    image: postgres:15.4-alpine
+    container_name: payment-database
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres-pwd
+      - POSTGRES_DB=payments_db
+      - PGUSER=postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "payments_db" ]
+      interval: 10s
+      timeout: 60s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  db:
+    driver: local
