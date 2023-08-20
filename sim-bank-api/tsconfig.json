@@ -1,0 +1,63 @@
+{
+  "compilerOptions": {
+    "pretty": true,
+    /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "target": "es2020",
+    /* Specify what module code is generated. */
+    "module": "NodeNext",
+    /* Specify the root folder within your source files. */
+    "rootDir": "./src",
+    "moduleResolution": "NodeNext",
+    /* Specify how TypeScript looks up a file from a given module specifier. */
+    "sourceMap": true,
+    /* Specify an output folder for all emitted files. */
+    "outDir": "./dist",
+    /* Disable emitting comments. */
+    "removeComments": true,
+    /* Specify emit/checking behavior for imports that are only used for types. */
+    "importsNotUsedAsValues": "remove",
+    /* Ensure that each file can be safely transpiled without relying on other imports. */
+    "isolatedModules": true,
+    /* Allow 'import x from y' when a module doesn't have a default export. */
+    // "allowSyntheticDefaultImports": true
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Enable all strict type-checking options. */
+    "strict": true,
+    /* Enable error reporting for expressions and declarations with an implied 'any' type. */
+    "noImplicitAny": true,
+    /* When type checking, take into account 'null' and 'undefined'. */
+    "strictNullChecks": true,
+    /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */
+    "strictFunctionTypes": true,
+    /* Check that the arguments for 'bind', 'call', and 'apply' methods match the original function. */
+    "strictBindCallApply": true,
+    /* Check for class properties that are declared but not set in the constructor. */
+    "strictPropertyInitialization": true,
+    /* Enable error reporting when 'this' is given the type 'any'. */
+    "noImplicitThis": true,
+    /* Default catch clause variables as 'unknown' instead of 'any'. */
+    // "useUnknownInCatchVariables": true
+    /* Ensure 'use strict' is always emitted. */
+    "alwaysStrict": true,
+    /* Enable error reporting when local variables aren't read. */
+    "noUnusedLocals": true,
+    /* Raise an error when a function parameter isn't read. */
+    "noUnusedParameters": true,
+    /* Interpret optional property types as written, rather than adding 'undefined'. */
+    // "exactOptionalPropertyTypes": true
+    /* Enable error reporting for codepaths that do not explicitly return in a function. */
+    "noImplicitReturns": true,
+    /* Enable error reporting for fallthrough cases in switch statements. */
+    "noFallthroughCasesInSwitch": true,
+    /* Skip type checking .d.ts files that are included with TypeScript. */
+    "skipLibCheck": true,
+    /* Skip type checking all .d.ts files. */
+    "typeRoots": [
+      "./src/@types"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
