@@ -9,7 +9,7 @@ enum PAYMENT_STATUSES {
 // TODO: refine this validation -- after all, we have to anticipate that
 //  this bank will still be around post-2100, like all bad pieces of code.
 const CreatePaymentOrderRequest = z.object({
-  card_number: z.string().min(16).max(19),
+  card_number: z.string().min(15).max(19),
   card_exp_month: z.number().min(1).max(12),
   card_exp_year: z.number().min(2023).max(2100),
   card_cvv: z.string().min(3).max(4),

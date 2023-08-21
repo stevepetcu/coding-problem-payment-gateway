@@ -2,7 +2,7 @@ services:
   payment-gateway:
     image: payment-gateway-api:latest
     build:
-      context: .
+      context: payment-gateway-api
     container_name: payment-gateway
     depends_on:
       db:
@@ -30,6 +30,14 @@ services:
       timeout: 60s
       retries: 5
       start_period: 30s
+
+  sim-bank:
+    image: sim-bank-api:latest
+    build:
+      context: sim-bank-api
+    container_name: sim-bank
+    environment:
+      - PORT=5050
 
 volumes:
   db:

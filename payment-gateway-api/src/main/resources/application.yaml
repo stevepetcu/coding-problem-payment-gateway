@@ -26,5 +26,5 @@ service:
     domain: http://localhost:8080
   external:
     sim-bank:
-      base-url: http://localhost:8090
+      base-url: http://sim-bank:5050
       create-payment-order-path: /payment-orders

@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "5e14d79e-fdb7-4d0d-b017-63bdf8fb487a",
+		"name": "Payment Gateway API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19233770",
+		"_collection_link": "https://restless-astronaut-16981.postman.co/workspace/My-Workspace~cf46a38d-db86-49c5-8546-52c4a012c9fb/collection/19233770-5e14d79e-fdb7-4d0d-b017-63bdf8fb487a?action=share&creator=19233770&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Create payment: SETTLED",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"random_amount\", Math.floor(Math.random()*90000) + 10000);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.collectionVariables.set(\"payment_id\", jsonData.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer blabla",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"source\": {\n        \"type\": \"CARD\",\n        \"number\": \"374245455400126\",\n        \"expiry_month\": 12,\n        \"expiry_year\": 2025,\n        \"cvv\": \"1234\"\n    },\n    \"amount_in_minor\": {{random_amount}},\n    \"currency\": \"GBP\",\n    \"reference\": \"A successful payment.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create payment: REJECTED",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"random_amount\", Math.floor(Math.random()*90000) + 10000);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.collectionVariables.set(\"payment_id\", jsonData.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer blabla",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"source\": {\n        \"type\": \"CARD\",\n        \"number\": \"374245455400126\",\n        \"expiry_month\": 12,\n        \"expiry_year\": 2025,\n        \"cvv\": \"1234\"\n    },\n    \"amount_in_minor\": {{random_amount}},\n    \"currency\": \"GBP\",\n    \"reference\": \"test:rejected\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payments"
+					]
+				},
+				"description": "The simulated bank will REJECT the payment based on its reference value."
+			},
+			"response": []
+		},
+		{
+			"name": "Create payment: FAILED",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"random_amount\", Math.floor(Math.random()*90000) + 10000);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.collectionVariables.set(\"payment_id\", jsonData.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer blabla",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"source\": {\n        \"type\": \"CARD\",\n        \"number\": \"374245455400126\",\n        \"expiry_month\": 12,\n        \"expiry_year\": 2025,\n        \"cvv\": \"1234\"\n    },\n    \"amount_in_minor\": {{random_amount}},\n    \"currency\": \"GBP\",\n    \"reference\": \"A successful payment.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payments"
+					]
+				},
+				"description": "The simulated bank only accepts card numbers that are between 15 - 19 digits long.\n\nIt will return a Bad Response to this request, which will cause our Payment Gateway API to mark this payment as FAILED."
+			},
+			"response": []
+		},
+		{
+			"name": "Get last payment made",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer blabla",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/payments/{{payment_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"payments",
+						"{{payment_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "payment_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "random_amount",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

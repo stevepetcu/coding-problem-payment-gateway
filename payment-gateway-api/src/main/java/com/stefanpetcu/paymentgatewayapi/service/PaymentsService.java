@@ -12,6 +12,7 @@ import com.stefanpetcu.paymentgatewayapi.repository.PaymentSourceCardEntityRepos
 import com.stefanpetcu.paymentgatewayapi.util.CardFingerprintGenerator;
 import com.stefanpetcu.paymentgatewayapi.util.UrlStringBuilder;
 import com.stefanpetcu.paymentgatewayapi.util.validation.ConstraintViolationFormatter;
+import feign.FeignException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
@@ -86,24 +87,31 @@ public class PaymentsService {
 
         var payment = this.stagePaymentIntent(request);
 
-        var paymentOrderResponse =
-                simBankApiGateway.initiatePayment(payment, request.source().cvv());
-        FormattedValidationErrorsHashMap paymentOrderResponseValidationResult =
-                this.validatePaymentOrderResponse(paymentOrderResponse);
+        try {
+            // TODO:
+            //  1. The error handling is overly simplified; for example, if the bank response is "bad", we should
+            //     log/alert + trigger some manual action to figure out what happened and remediate the situation.
+            //  2. We should also better handle other kinds of errors, such as timeouts, 4**, 5** etc.
+            var paymentOrderResponse =
+                    simBankApiGateway.initiatePayment(payment, request.source().cvv());
 
-        // TODO:
-        //  1. Overly simplified handling; we should log/alert + trigger some manual action to figure out
-        //  what happened and remediate the situation.
-        //  2. We should also handle other kinds of errors, such as timeouts, 4**, 5** etc.
-        if (!paymentOrderResponseValidationResult.errors().isEmpty()) {
+            FormattedValidationErrorsHashMap paymentOrderResponseValidationResult =
+                    this.validatePaymentOrderResponse(paymentOrderResponse);
+
+            if (!paymentOrderResponseValidationResult.errors().isEmpty()) {
+                return this.paymentEntityRepository.save(
+                        payment.withStatus(PaymentStatus.FAILED)
+                );
+            }
+
+            return this.paymentEntityRepository.save(
+                    payment.withStatus(PaymentStatus.valueOf(paymentOrderResponse.status()))
+            );
+        } catch (FeignException exception) {
             return this.paymentEntityRepository.save(
                     payment.withStatus(PaymentStatus.FAILED)
             );
         }
-
-        return this.paymentEntityRepository.save(
-                payment.withStatus(PaymentStatus.valueOf(paymentOrderResponse.status()))
-        );
     }
 
     public PaymentEntity findPaymentBy(UUID id) {
