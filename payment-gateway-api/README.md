@@ -1,5 +1,7 @@
 # Payment Gateway API
 
+TODO: A lot of the README is "To be continued…"; for example, the diagrams mentioned below need to be added:
+
 Further documentation in the form of diagrams can be found under the 
 [/docs](./docs) folder:
 - [C4 system-context-level diagrams](./docs/c4/c4-system-context.puml)
@@ -20,7 +22,7 @@ Further documentation in the form of diagrams can be found under the
 
 ### 1.1 Requirements
 
-- Java
+- Java 17
 - Docker running
 
 ### 1.2 Running the tests locally
@@ -32,43 +34,47 @@ a local database with the purpose of running the integration tests.
 
 > Make sure Docker is running on your machine before attempting to run the suite of tests locally.
 
-To run the tests, open a terminal window, navigate to the root of the `payment-gateway-api` application and 
-execute the following command:
+To run the tests, in a terminal window, navigate to the directory containing this README file, and execute:
 ```commandline
 ./gradlew test
 ```
 
 #### 1.2.1 End-to-end tests
 
+TODO: Add end-to-end tests.
+
 ### 1.3 Running the application locally with the included bank simulator
 
-TODO: add a readme to the root-root of the project
-
-Reference docker commands: https://docs.tibco.com/pub/mash-local/4.3.0/doc/html/docker/GUID-BD850566-5B79-4915-987E-430FC38DAAE4.html
-
-See the [README.md](../README.md) included in the root of this project.
+See the [README file](../README.md#1-running-the-services-on-your-local-machine) included in the root of this project.
 
 #### 1.3.1 SwaggerUI
 
+TODO: Add SwaggerUI.
+
 #### 1.3.1 Postman
 
-TODO: add instructions for using the [Postman collection](./docs/postman) included with the project.
-TODO: add a random minor amount for each payment (see how I did that in my other project)
-TODO: implement an end-to-end suite of tests in Postman
+For manual exploratory testing, a [Postman collection](./docs/postman) is included in this repository.
 
 > The Postman collection is a living doc, and it must be kept up-to-date.
 
 ## 2. Assumptions made for the exercise
 
-- We're implementing payouts for merchants.
-- We already capture and store the merchant's bank account, and it's linked to their client id.
-- We can wire the money from the cardholder's bank account into the merchant's based on the above + getting their client id e.g., in the auth token.
+- We're implementing payouts for merchants; we already capture and store the merchant's bank account, 
+and it's linked to their client id.
+- We can wire the money from the cardholder's bank account into the merchant's based on the above and by
+getting their client id e.g., from a JWT auth token.
+- Hence, none of the payee's bank account information is captured for this exercise.
+
+For more notes, see [3. Areas for improvement](#3-areas-for-improvement)
 
 ## 3. Areas for improvement
 
+> Note: many of the tactical areas for improvement are documented as TODOs in the code.
+
 ### 3.1 Local development
 
-- Add test coverage
+- Report test coverage to get an idea of the areas that need improvement
+- Implement code style checking/formatting, e.g., as part of running the tests
 
 ### 3.2 Production
 
@@ -76,16 +82,61 @@ TODO: implement an end-to-end suite of tests in Postman
 
 3.2.1.1 Uptime
 
+Uptime = % of time that the service is usable by end-users for its intended purpose.
+
+Assuming we deploy using a CI/CD pipeline:
+- Implement a strong CI pipeline testing strategy, covering all levels of testing using a swiss-cheese model:
+  - Unit
+  - Integration
+  - End-to-end in an integration environment that is as close to production as possible
+  - Also run static code and security analysis + dependency vulnerability analysis before deploying a new image to any env.
+- Implement rolling updates
+- Implement Blue/Green deployments with smoke tests
+- Implement synthetic tests
+- Implement contract tests at domain boundaries
+- Use exploratory testing to find any issues left undiscovered
+- Use chaos testing to test how robust and failure-tolerant the services are
+- Implement an adequate level of observability and alerting + on-call practices
+- Implement ways to handle thundering herds and cache stampedes etc.
+- TODO: to be continued…
+
 3.2.1.2 Latency
+
+Latency = how quickly the service responds to requests.
+
+- Run load tests as part of the CI pipeline
+- Scale services horizontally where possible
+- Implement caching at different levels (e.g., client-side, reverse-proxy-side, cache stores, application cache etc.);
+avoid running into metastable failures caused by incorrect cache practices.
+- Track service loads over time to predict load levels
+- TODO: to be continued…
 
 3.2.1.3 Scale
 
+Scale = the amount and variety of workloads that the service can handle before latency and uptime start to degrade.
+
+- Implement asynchronous handling of work where possible
+- TODO: to be continued…
+
 3.2.1.4 Velocity
 
-3.2.1.5 Privacy
+Velocity = how fast new features can be added to the service.
 
+- Team topologies
+- Reverse Conway's law
+- DORA practices + Agile practices
+- TODO: to be continued…
+
+3.2.1.5 Privacy and Security
+
+- Ensure data security (there's a lot to unpack here)
+- Build systems that conform to GDPR standards (golden standard)
+- Ensure users can get their data removed upon request, in a timely manner
+
+For example:
 - The database must be encrypted at rest
-- The card details table (`cards`) must be encrypted – how? Is at rest enough? See https://www.postgresql.org/docs/current/encryption-options.html
+- The card details table (`cards`) could be further encrypted – e.g., using client-side encryption.
+See https://www.postgresql.org/docs/current/encryption-options.html
 
 ### 3.2.2 Strategic/system-level design
 
@@ -93,8 +144,9 @@ TODO: implement an end-to-end suite of tests in Postman
 
 ### 3.2.3 Tactical/application-level design
 
-- Idempotency
-- Database denormalisation
+- Ensure idempotency
+- Improve validation
+- Improve test automation
 
 ### 3.2.4 Test automation
 
@@ -103,7 +155,8 @@ TODO: implement an end-to-end suite of tests in Postman
 - Add support for more types of payment
 - Add support for processing payments asynchronously
 - Improve validation error messages
-- Handle error cases (e.g., bank timeouts or errors when contacting the bank to initiate the payment)
+- Improve error case handling (e.g., bank timeouts or errors when contacting the bank to initiate the payment)
+- Implement authentication
 
 ### 3.4 Observability
 

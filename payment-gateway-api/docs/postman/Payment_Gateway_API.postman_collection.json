@@ -57,12 +57,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/payments",
+					"raw": "http://localhost:{{port}}/payments",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "{{port}}",
 					"path": [
 						"payments"
 					]
@@ -120,12 +120,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/payments",
+					"raw": "http://localhost:{{port}}/payments",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "{{port}}",
 					"path": [
 						"payments"
 					]
@@ -184,12 +184,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/payments",
+					"raw": "http://localhost:{{port}}/payments",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "{{port}}",
 					"path": [
 						"payments"
 					]
@@ -210,15 +210,41 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/payments/{{payment_id}}",
+					"raw": "http://localhost:{{port}}/payments/{{payment_id}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8080",
+					"port": "{{port}}",
 					"path": [
 						"payments",
 						"{{payment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get payment 404 Response",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer blabla",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:{{port}}/payments/12345678-1234-1234-1234-123456789101",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"payments",
+						"12345678-1234-1234-1234-123456789101"
 					]
 				}
 			},
@@ -254,6 +280,11 @@
 		{
 			"key": "random_amount",
 			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "port",
+			"value": "8080",
 			"type": "string"
 		}
 	]
