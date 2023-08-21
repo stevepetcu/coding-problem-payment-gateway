@@ -42,7 +42,7 @@ starting the docker containers should be fixable using the slightly "nuclear" so
 > Notes:
 > 1. Running `eval "$(docker-machine env <docker machine name>)"` may not be needed if docker is installed as an app on
 > your system.
-> 2. Running the series of commands described in the above post will result in the loss of any database data stored by 
+> 2. Running the series of commands described in the above post will result in the loss of any data stored by 
 > this service's database, or any other dockerized databases with persistent volumes that you may be working with.
 
 # 2. Additional notes
