@@ -30,9 +30,8 @@ which can be imported and used to demonstrate the API's capabilities.
 > `port` variable will need to be updated as well.
 > 2. The `sim-bank` and `payment-database` services should not be exposed to the local system, hence they cannot be
 > "hit" directly. To experiment with the `sim-bank` locally, follow the instructions in that service's README file.
-> 3. After the first run (which takes longer than subsequent runs, if docker images are kept locally), using 
-> `docker-compose up -d` to start the containers as daemons might be preferable. Run `docker-compose stop` from the same
-> directory where `docker-compose up -d` was run, to stop the containers.
+> 3. After the first run, using `docker-compose up -d` to start the containers as daemons might be preferable. To stop 
+> the containers, use `docker-compose stop` from the same directory.
 
 #### 1.2.1 Debugging
 
